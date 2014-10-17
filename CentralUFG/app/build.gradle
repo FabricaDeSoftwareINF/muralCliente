@@ -48,4 +48,6 @@ dependencies {
     compile 'com.github.kevinsawicki:http-request:5.6'
     //Feedback visual
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
+
+    compile 'com.google.android.gms:play-services:6.1.+'
 }
