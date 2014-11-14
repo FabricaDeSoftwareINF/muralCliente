@@ -14,6 +14,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.io.IOException;
 
 import muralufg.fabrica.inf.ufg.br.centralufg.R;
+import muralufg.fabrica.inf.ufg.br.centralufg.exception.MyException;
 
 /**
  * Created by italogustavomirandamelo on 17/10/14.
@@ -29,10 +30,9 @@ public class GCMRegister extends AsyncTask<Void, Void, String> {
     Context context;
     String idRegistroGCM;
     String senderId;
+    static final String TAG = "GCMRegister";
 
-    public GCMRegister(){}
-
-    public GCMRegister(Context context, SharedPreferences sharedPreferences){
+    public GCMRegister(Context context){
         this.context = context;
         this.properyRegId = context.getResources().getString(R.string.property_reg_id);
         this.senderId = context.getResources().getString(R.string.gcm_sender_id);
@@ -43,8 +43,6 @@ public class GCMRegister extends AsyncTask<Void, Void, String> {
     @Override
     public String doInBackground(Void... params) {
 
-        String msg = "";
-
         try {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(context);
@@ -53,15 +51,11 @@ public class GCMRegister extends AsyncTask<Void, Void, String> {
             storeRegistrationId(context, idRegistroGCM);
 
         } catch (IOException ex) {
-            // CRON ERRO
+            Log.i(TAG, "Erro ao registrar GCM");
+            throw new MyException("context", ex);
         }
 
         return idRegistroGCM;
-    }
-
-
-    @Override
-    protected void onPostExecute(String msg) {
     }
 
 
@@ -96,18 +90,18 @@ public class GCMRegister extends AsyncTask<Void, Void, String> {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException("Could not get package name: " + e);
+            throw new MyException("Could not get package name:", e);
         }
     }
 
 
     private void storeRegistrationId(Context context, String regId) {
 
-        int appVersion = getAppVersion(context);
+        int versaoApp = getAppVersion(context);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(properyRegId, regId);
-        editor.putInt(appVersionProperty, appVersion);
+        editor.putInt(appVersionProperty, versaoApp);
         editor.commit();
 
     }

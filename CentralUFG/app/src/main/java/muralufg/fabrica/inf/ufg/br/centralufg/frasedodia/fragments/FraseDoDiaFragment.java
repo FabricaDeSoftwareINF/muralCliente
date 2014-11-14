@@ -18,8 +18,6 @@ import muralufg.fabrica.inf.ufg.br.centralufg.util.ServiceCompliant;
 
 public class FraseDoDiaFragment extends Fragment implements ServiceCompliant {
 
-    private SmoothProgressBar mPocketBar;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
