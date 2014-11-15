@@ -67,14 +67,11 @@ import android.widget.ListView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import muralufg.fabrica.inf.ufg.br.centralufg.R;
 import muralufg.fabrica.inf.ufg.br.centralufg.frasedodia.fragments.FraseDoDiaFragment;
 
 
 public class MainActivity extends ActionBarActivity {
-
-    private int TEMPO_ALERTA = 3000;
 
     private String[] menuItems;
     private DrawerLayout mDrawerLayout;
@@ -109,11 +106,11 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.label_menu,  /* "open drawer" description */
-                R.string.label_fechar  /* "close drawer" description */
+                this,                  
+                mDrawerLayout,         
+                R.drawable.ic_drawer,  
+                R.string.label_menu,  
+                R.string.label_fechar 
         ) {
 
             /** Called when a drawer has settled in a completely closed state. */
