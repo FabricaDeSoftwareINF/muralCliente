@@ -78,20 +78,12 @@ import muralufg.fabrica.inf.ufg.br.centralufg.gcm.GCMRegister;
 
 public class MainActivity extends ActionBarActivity {
 
-    private int TEMPO_ALERTA = 3000;
-
     private String[] menuItems;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-
-    public static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-    private static final String SENDER_ID = "437002960869";
 
     static final String TAG = "MainActivity";
     GoogleCloudMessaging gcm;
@@ -107,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
 
         context = getApplicationContext();
 
-        gcmRegister = new GCMRegister(this, getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE));
+        gcmRegister = new GCMRegister(this);
 
         mTitle = mDrawerTitle = getTitle();
 
