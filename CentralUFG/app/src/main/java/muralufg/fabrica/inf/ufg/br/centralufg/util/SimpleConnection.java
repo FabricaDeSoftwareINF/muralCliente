@@ -2,20 +2,23 @@ package muralufg.fabrica.inf.ufg.br.centralufg.util;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 
 import muralufg.fabrica.inf.ufg.br.centralufg.R;
+import muralufg.fabrica.inf.ufg.br.centralufg.exception.MyException;
 
 public class SimpleConnection extends AsyncTask<Void, Void, Void> {
 
-    protected final int OK = 200;
-    protected final int ERROR = 400;
+    protected static final int OK = 200;
+    protected static final int ERROR = 400;
     private int httpStatus;
     private String response;
     protected ServiceCompliant handler;
     private ProgressDialog dialog;
     private String url;
+    static final String TAG = "SimpleConnection";
 
     public SimpleConnection(ServiceCompliant handler, String url){
         this.handler = handler;
@@ -29,8 +32,9 @@ public class SimpleConnection extends AsyncTask<Void, Void, Void> {
             HttpRequest request = HttpRequest.get(url);
             httpStatus = request.code();
             response = request.body();
-        }catch (Exception e){
-            return null;
+        }catch (HttpRequest.HttpRequestException e){
+            Log.i(TAG, "Erro ao registrar GCM");
+            throw new MyException("context", e);
         }
         return null;
     }

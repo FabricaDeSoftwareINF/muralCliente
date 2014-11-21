@@ -51,13 +51,15 @@
  */
 package muralufg.fabrica.inf.ufg.br.centralufg.main;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,16 +67,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import muralufg.fabrica.inf.ufg.br.centralufg.R;
 import muralufg.fabrica.inf.ufg.br.centralufg.frasedodia.fragments.FraseDoDiaFragment;
+import muralufg.fabrica.inf.ufg.br.centralufg.gcm.GCMRegister;
 
 
 public class MainActivity extends ActionBarActivity {
-
-    private int TEMPO_ALERTA = 3000;
 
     private String[] menuItems;
     private DrawerLayout mDrawerLayout;
@@ -83,10 +85,21 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
+    static final String TAG = "MainActivity";
+    GoogleCloudMessaging gcm;
+    String idRegistroGCM;
+    Context context;
+
+    GCMRegister gcmRegister;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        context = getApplicationContext();
+
+        gcmRegister = new GCMRegister(this);
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -135,6 +148,18 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (gcmRegister.checkPlayServices()) {
+            gcm = GoogleCloudMessaging.getInstance(this);
+            idRegistroGCM = gcmRegister.getRegistrationId(context);
+
+            if (idRegistroGCM.isEmpty()) {
+                gcmRegister.execute();
+            }
+
+        } else {
+            Log.i(TAG, "Não encontrado Google Play Services APK válido.");
+        }
     }
 
 
