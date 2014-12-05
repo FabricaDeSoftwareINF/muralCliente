@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="play_services_resolution_request">9000</integer>
+
+</resources>

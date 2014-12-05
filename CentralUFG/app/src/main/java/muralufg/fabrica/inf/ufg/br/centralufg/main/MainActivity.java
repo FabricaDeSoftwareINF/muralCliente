@@ -51,13 +51,15 @@
  */
 package muralufg.fabrica.inf.ufg.br.centralufg.main;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,16 +67,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import muralufg.fabrica.inf.ufg.br.centralufg.R;
+import muralufg.fabrica.inf.ufg.br.centralufg.compromisso.fragments.CollectionFragments;
+import muralufg.fabrica.inf.ufg.br.centralufg.compromisso.fragments.CompromissoFragment;
 import muralufg.fabrica.inf.ufg.br.centralufg.frasedodia.fragments.FraseDoDiaFragment;
+import muralufg.fabrica.inf.ufg.br.centralufg.util.view.cartao.CartoesListFragment;
+import muralufg.fabrica.inf.ufg.br.centralufg.gcm.GCMRegister;
 
 
 public class MainActivity extends ActionBarActivity {
-
-    private int TEMPO_ALERTA = 3000;
 
     private String[] menuItems;
     private DrawerLayout mDrawerLayout;
@@ -83,12 +88,21 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
+    static final String TAG = "MainActivity";
+    GoogleCloudMessaging gcm;
+    String idRegistroGCM;
+    Context context;
+
+    GCMRegister gcmRegister;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         mTitle = mDrawerTitle = getTitle();
+
+        gcmRegister = new GCMRegister(this);
 
         menuItems = getResources().getStringArray(R.array.opcoes_menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -108,12 +122,19 @@ public class MainActivity extends ActionBarActivity {
                 .commit();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        /* Itens no ActionBar, respectivamente,
+        host Activity
+        DrawerLayout object
+        nav drawer icon to replace 'Up' caret
+        "open drawer" description
+        "close drawer" description
+        */
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.label_menu,  /* "open drawer" description */
-                R.string.label_fechar  /* "close drawer" description */
+                this,
+                mDrawerLayout,
+                R.drawable.ic_drawer,
+                R.string.label_menu,
+                R.string.label_fechar
         ) {
 
             /** Called when a drawer has settled in a completely closed state. */
@@ -135,6 +156,18 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (gcmRegister.checkPlayServices()) {
+            gcm = GoogleCloudMessaging.getInstance(this);
+            idRegistroGCM = gcmRegister.getRegistrationId();
+
+            if (idRegistroGCM.isEmpty() || "".equals(idRegistroGCM)) {
+                gcmRegister.execute();
+            }
+
+        } else {
+            Log.i(TAG, "Não encontrado Google Play Services APK válido.");
+        }
     }
 
 
@@ -158,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -203,12 +236,19 @@ public class MainActivity extends ActionBarActivity {
             case 1:
                 return new FraseDoDiaFragment();
 
+            case 2:
+                return new CartoesListFragment();
+
+            case 3:
+                return new CollectionFragments();
+
             default:
                 Crouton.makeText(this, getResources().getString(R.string.alerta_opcao_invalida),
                         Style.ALERT).show();
                 return new HelloFragment();
         }
     }
+
 
     @Override
     public void setTitle(CharSequence title) {

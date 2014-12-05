@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <integer-array name="gplus_colors">
         <item>@color/gplus_color_1</item>
         <item>@color/gplus_color_2</item>
         <item>@color/gplus_color_3</item>
         <item>@color/gplus_color_4</item>
+        <item>@color/gplus_color_5</item>
+        <item>@color/gplus_color_6</item>
+        <item>@color/gplus_color_7</item>
+        <item>@color/gplus_color_8</item>
+        <item>@color/gplus_color_9</item>
+        <item>@color/gplus_color_10</item>
+        <item>@color/gplus_color_11</item>
+        <item>@color/gplus_color_12</item>
+        <item>@color/gplus_color_13</item>
+        <item>@color/gplus_color_14</item>
+        <item>@color/gplus_color_15</item>
+        <item>@color/gplus_color_16</item>
+        <item>@color/gplus_color_17</item>
+        <item>@color/gplus_color_18</item>
+        <item>@color/gplus_color_19</item>
+        <item>@color/gplus_color_20</item>
     </integer-array>
-
-    <color name="gplus_color_1">#3e802f</color>
-    <color name="gplus_color_2">#f4b400</color>
-    <color name="gplus_color_3">#427fed</color>
-    <color name="gplus_color_4">#b23424</color>
+    <color name="gplus_color_1">#00105E</color>
+    <color name="gplus_color_2">#031D70</color>
+    <color name="gplus_color_3">#0B3086</color>
+    <color name="gplus_color_4">#1E4D9E</color>
+    <color name="gplus_color_5">#0065BD</color>
+    <color name="gplus_color_6">#2B7FC8</color>
+    <color name="gplus_color_7">#5598D3</color>
+    <color name="gplus_color_8">#80B2DE</color>
+    <color name="gplus_color_9">#AACCE9</color>
+    <color name="gplus_color_10">#D5E5F4</color>
+    <color name="gplus_color_12">#FFF8E1</color>
+    <color name="gplus_color_13">#FFECB3</color>
+    <color name="gplus_color_14">#FFE082</color>
+    <color name="gplus_color_15">#FFD54F</color>
+    <color name="gplus_color_16">#FFCA28</color>
+    <color name="gplus_color_11">#FFC107</color>
+    <color name="gplus_color_17">#FFB300</color>
+    <color name="gplus_color_18">#FFA000</color>
+    <color name="gplus_color_19">#FF8F00</color>
+    <color name="gplus_color_20">#FF6F00</color>
 </resources>
+
+
